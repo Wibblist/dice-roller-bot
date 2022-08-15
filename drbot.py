@@ -10,18 +10,18 @@ server = Flask(__name__)
 
 
 @bot.message_handler(commands=["start"])
-def handle_command(message):
+def handle_command(message: str) -> None:
     bot.reply_to(message, "Ya'll ready to roll?")
 
 
 @bot.message_handler(commands=["help"])
-def handle_command(message):
+def handle_command(message: str) -> None:
     bot.reply_to(message, "Rolls look like this:\n/1d20+5")
 
 
 @bot.message_handler(func=lambda message: True, content_types=["text"])
-def handle_all_message(message):
-    raw = message.text
+def handle_all_message(message: str) -> None:
+    raw: str = message.text
 
     if raw[0] == "/":
         roll = raw[1:]
