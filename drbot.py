@@ -1,9 +1,12 @@
 import os
 from flask import Flask, request
 import telebot
-from creds import TOKEN, USERNAME, URL
 import random
 import re
+
+TOKEN = os.getenv("TOKEN")
+USERNAME = os.getenv("USERNAME")
+URL = os.getenv("URL")
 
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
@@ -33,7 +36,7 @@ def handle_all_message(message: str) -> None:
 
         if re.search(r"(\d+d\d+)((\+((\d+d\d+)|\d+))*)?", roll):
 
-            def get_roll(roll):
+            def get_roll(roll: str) -> tuple[int, int, int]:
                 inlen = len(roll)
                 i = 0
 
@@ -78,7 +81,7 @@ def handle_all_message(message: str) -> None:
 
             roll_in = get_roll(roll)
 
-            def dice_roll(dinput):
+            def dice_roll(dinput: tuple[int, int, int]) -> None:
 
                 i = 0
                 dnum = dinput[0]
@@ -139,4 +142,4 @@ def webhook():
 
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8443)))
